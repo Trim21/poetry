@@ -23,12 +23,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: release-files
-        path: releases/poetry-${{ steps.tag.outputs.tag }}-linux.tar.gz
-    - name: Upload checksum file
-      uses: actions/upload-artifact@v1
-      with:
-        name: release-files
-        path: releases/poetry-${{ steps.tag.outputs.tag }}-linux.sha256sum
+        path: releases/poetry-${{ steps.tag.outputs.tag }}-linux.*
 
   MacOS:
     runs-on: macos-latest
@@ -73,12 +68,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: release-files
-        path: releases/poetry-${{ steps.tag.outputs.tag }}-darwin.tar.gz
-    - name: Upload checksum file
-      uses: actions/upload-artifact@v1
-      with:
-        name: release-files
-        path: releases/poetry-${{ steps.tag.outputs.tag }}-darwin.sha256sum
+        path: releases/poetry-${{ steps.tag.outputs.tag }}-darwin.*
 
   Windows:
     runs-on: windows-latest
@@ -131,12 +121,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: release-files
-        path: releases/poetry-${{ steps.tag.outputs.tag }}-win32.tar.gz
-    - name: Upload checksum file
-      uses: actions/upload-artifact@v1
-      with:
-        name: release-files
-        path: releases/poetry-${{ steps.tag.outputs.tag }}-win32.sha256sum
+        path: releases/poetry-${{ steps.tag.outputs.tag }}-win32.*
 
   Release:
     needs: [Linux, MacOS, Windows]
