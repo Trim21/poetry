@@ -22,12 +22,12 @@ jobs:
     - name: Upload release file
       uses: actions/upload-artifact@v1
       with:
-        name: poetry-${{ steps.tag.outputs.tag }}-linux.tar.gz
+        name: release-files
         path: releases/poetry-${{ steps.tag.outputs.tag }}-linux.tar.gz
     - name: Upload checksum file
       uses: actions/upload-artifact@v1
       with:
-        name: poetry-${{ steps.tag.outputs.tag }}-linux.sha256sum
+        name: release-files
         path: releases/poetry-${{ steps.tag.outputs.tag }}-linux.sha256sum
 
   MacOS:
@@ -72,12 +72,12 @@ jobs:
     - name: Upload release file
       uses: actions/upload-artifact@v1
       with:
-        name: poetry-${{ steps.tag.outputs.tag }}-darwin.tar.gz
+        name: release-files
         path: releases/poetry-${{ steps.tag.outputs.tag }}-darwin.tar.gz
     - name: Upload checksum file
       uses: actions/upload-artifact@v1
       with:
-        name: poetry-${{ steps.tag.outputs.tag }}-darwin.sha256sum
+        name: release-files
         path: releases/poetry-${{ steps.tag.outputs.tag }}-darwin.sha256sum
 
   Windows:
@@ -130,12 +130,12 @@ jobs:
     - name: Upload release file
       uses: actions/upload-artifact@v1
       with:
-        name: poetry-${{ steps.tag.outputs.tag }}-win32.tar.gz
+        name: release-files
         path: releases/poetry-${{ steps.tag.outputs.tag }}-win32.tar.gz
     - name: Upload checksum file
       uses: actions/upload-artifact@v1
       with:
-        name: poetry-${{ steps.tag.outputs.tag }}-win32.sha256sum
+        name: release-files
         path: releases/poetry-${{ steps.tag.outputs.tag }}-win32.sha256sum
 
   Release:
@@ -149,35 +149,10 @@ jobs:
         id: tag
         run: |
           echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
-      - name: Download Linux release file
-        uses: actions/download-artifact@master
+      - name: Download release file
+        uses: actions/download-artifact@v2
         with:
-          name: poetry-${{ steps.tag.outputs.tag }}-linux.tar.gz
-          path: releases/
-      - name: Download Linux checksum file
-        uses: actions/download-artifact@master
-        with:
-          name: poetry-${{ steps.tag.outputs.tag }}-linux.sha256sum
-          path: releases/
-      - name: Download MacOS release file
-        uses: actions/download-artifact@master
-        with:
-          name: poetry-${{ steps.tag.outputs.tag }}-darwin.tar.gz
-          path: releases/
-      - name: Download MacOS checksum file
-        uses: actions/download-artifact@master
-        with:
-          name: poetry-${{ steps.tag.outputs.tag }}-darwin.sha256sum
-          path: releases/
-      - name: Download Windows release file
-        uses: actions/download-artifact@master
-        with:
-          name: poetry-${{ steps.tag.outputs.tag }}-win32.tar.gz
-          path: releases/
-      - name: Download Windows checksum file
-        uses: actions/download-artifact@master
-        with:
-          name: poetry-${{ steps.tag.outputs.tag }}-win32.sha256sum
+          name: release-files
           path: releases/
       - name: Create Release
         run: gh release create '${{ steps.tag.outputs.tag }}' --title '${{ steps.tag.outputs.tag }}' ./releases/*
